@@ -41,7 +41,7 @@ const TelegramAuth: React.FC = () => {
               value={authUrl}
               onChange={(e) => setAuthUrl(e.target.value)}
               placeholder="Enter your call back url"
-              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-black dark:focus:border-black focus:ring focus:ring-black focus:outline-none focus:ring-opacity-40"
+              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg focus:border-black  focus:ring focus:ring-black focus:outline-none focus:ring-opacity-40"
             />
           </div>
 
