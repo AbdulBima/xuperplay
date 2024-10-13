@@ -178,9 +178,9 @@ const LoginCreate: React.FC = () => {
             </div>
 
             {/* Submit Button */}
-            <div>
+            <div className="flex items-center justify-center w-full mx-auto">
               {loading ? (
-                <div className="spinner w-full flex justify-center">
+                <div className="spinner w-full mxauto flex justify-center">
                   <div></div>
                   <div></div>
                   <div></div>

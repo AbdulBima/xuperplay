@@ -86,31 +86,34 @@ const LoginComp: React.FC = () => {
                 />
               </div>
 
-              <div>
-                {loading ? (
-                  <div className="spinner w-full flex justify-center">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                  </div>
-                ) : (
-                  <button
-                    type="submit"
-                    className="w-full flex text-lg justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm font-medium text-white bg-black hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
-                    disabled={loading} // Disable button when loading
-                  >
-                    {" "}
-                    LOGIN{" "}
-                  </button>
-                )}
-              </div>
+            {/* Submit Button */}
+            <div className="flex items-center justify-center w-full mx-auto">
+              {loading ? (
+                <div className="spinner w-full mxauto flex justify-center">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              ) : (
+                <button
+                  type="submit"
+                  disabled={loading} // Disable button while loading
+                  className="w-full flex text-sm lg:text-lg justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm font-medium text-white bg-black hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black
+                  "
+                >
+                  {" "}
+                  Submit{" "}
+                </button>
+              )}{" "}
+              {/* Change button text when loading */}
+            </div>
             </form>
           </div>
 
