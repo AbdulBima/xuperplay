@@ -22,7 +22,9 @@ const OTP: React.FC = () => {
 
     if (!storedToken) {
       toast.error("Token not found. Redirecting to login...");
-      router.push("/");
+      setTimeout(() => {
+        router.push("/");
+      }, 2000); // Wait before redirecting
     }
   }, [router]);
 
@@ -52,11 +54,15 @@ const OTP: React.FC = () => {
 
       // Show success toast and redirect based on the API response
       if (message === "Company already exists.") {
-        toast.success("Login successfull, redirecting to dashboard...");
-        router.push("/dashboard");
+        toast.success("Login successful, redirecting to dashboard...");
+        setTimeout(() => {
+          router.push("/dashboard");
+        }, 2000); // 2-second delay
       } else if (message === "New company created, complete registration") {
         toast.success("New company created. Redirecting to registration...");
-        router.push("/login/create");
+        setTimeout(() => {
+          router.push("/login/create");
+        }, 2000); // 2-second delay
       }
     } catch (error) {
       console.error("Error during submission:", error);
@@ -68,6 +74,7 @@ const OTP: React.FC = () => {
 
   return (
     <>
+      {/* ToastContainer must be inside the component */}
       <ToastContainer
         position="top-right"
         autoClose={2000}
