@@ -105,8 +105,7 @@ const OTP: React.FC = () => {
                 />
               </div>
 
-           {/* Submit Button */}
-           <div className="flex items-center justify-center w-full mx-auto">
+           <div className="flex items-center justify-center w-full mx-auto mt-4">
               {loading ? (
                 <div className="spinner w-full mxauto flex justify-center">
                   <div></div>
@@ -153,7 +152,7 @@ const OTP: React.FC = () => {
             unoptimized
             src="/images/spiral.png"
             alt="Large Image"
-            className="w-[300px] h-[200px] lg:w-[650px] lg:h-[430px] object-cover opacity-20"
+            className="w-[300px] h-[200px] lg:w-[650px] lg:h-[430px] object-cover "
           />
         </div>
       </div>

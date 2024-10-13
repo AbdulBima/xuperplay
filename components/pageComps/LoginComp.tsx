@@ -173,31 +173,33 @@ const LoginComp: React.FC = () => {
                 />
               </div>
 
-              <div>
+              <div className="flex items-center justify-center w-full mx-auto mt-4">
+              {loading ? (
+                <div className="spinner w-full mxauto flex justify-center">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              ) : (
                 <button
                   type="submit"
-                  className="w-full flex text-sm lg:text-lg justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm font-medium text-white bg-black hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
-                  disabled={loading} // Disable button when loading
+                  disabled={loading} // Disable button while loading
+                  className="w-full flex text-sm lg:text-lg justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm font-medium text-white bg-black hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black
+                  "
                 >
-                  {loading ? (
-                    /* From Uiverse.io by PriyanshuGupta28 */
-                    <div className="spinner">
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                    </div>
-                  ) : (
-                    <span>LOGIN</span>
-                  )}
+                  {" "}
+                  Submit{" "}
                 </button>
-              </div>
+              )}{" "}
+              {/* Change button text when loading */}
+            </div>
             </form>
           </div>
 
@@ -221,7 +223,7 @@ const LoginComp: React.FC = () => {
             unoptimized
             src="/images/spiral.png"
             alt="Large Image"
-            className="w-[300px] h-[200px] lg:w-[650px] lg:h-[430px] object-cover opacity-20"
+            className="w-[300px] h-[200px] lg:w-[650px] lg:h-[430px] object-cover "
           />
         </div>
       </div>

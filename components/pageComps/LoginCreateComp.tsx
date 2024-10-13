@@ -53,6 +53,8 @@ const LoginCreate: React.FC = () => {
         // If response is successful, save buid and email to local storage
         localStorage.setItem("buid", response.data.buid);
         localStorage.setItem("email", response.data.email);
+        localStorage.setItem("projectName", response.data.projectName);
+
 
         // Show success toast
         toast.success("Project created successfully!");
@@ -177,8 +179,7 @@ const LoginCreate: React.FC = () => {
               />
             </div>
 
-            {/* Submit Button */}
-            <div className="flex items-center justify-center w-full mx-auto">
+            <div className="flex items-center justify-center w-full mx-auto mt-4">
               {loading ? (
                 <div className="spinner w-full mxauto flex justify-center">
                   <div></div>
@@ -200,11 +201,11 @@ const LoginCreate: React.FC = () => {
                   "
                 >
                   {" "}
-                  Create{" "}
+                  Submit{" "}
                 </button>
               )}{" "}
               {/* Change button text when loading */}
-            </div>
+            </div>F
           </form>
         </div>
 
