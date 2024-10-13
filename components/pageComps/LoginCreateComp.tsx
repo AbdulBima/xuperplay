@@ -205,7 +205,7 @@ const LoginCreate: React.FC = () => {
                 </button>
               )}{" "}
               {/* Change button text when loading */}
-            </div>F
+            </div>
           </form>
         </div>
 
