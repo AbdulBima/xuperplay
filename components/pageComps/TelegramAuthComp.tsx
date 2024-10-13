@@ -1,6 +1,8 @@
-"use client"
+"use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type TelegramUser = {
   id: number;
@@ -20,7 +22,7 @@ declare global {
 }
 
 const sendMessageToTelegramUser = async (chatId: number, message: string) => {
-    const botToken = "7569757240:AAGQGnfhqEXJoujh8xy527Yj9Eo64jmzxEQ";
+  const botToken = "7569757240:AAGQGnfhqEXJoujh8xy527Yj9Eo64jmzxEQ";
   const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(
     message
   )}`;
@@ -42,11 +44,12 @@ const TelegramAuth: React.FC = () => {
   const telegramContainerRef = useRef<HTMLDivElement>(null);
 
   const onTelegramAuth = (user: TelegramUser) => {
-    alert(
+    toast.success(
       `Logged in as ${user.first_name} ${user.last_name || ""} userId: ${
         user.id || ""
       } Hash: ${user.hash || ""}  (@${user.username || "N/A"})`
     );
+
     console.log("User Data: ", user);
 
     sendMessageToTelegramUser(user.id, "Welcome to our service!");
@@ -71,32 +74,38 @@ const TelegramAuth: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full flex h-screen justify-center items-center">
-      <div className="p-10 w-[30vw] h-72 bg-white rounded-lg shadow-md">
-        <div className="flex justify-center mb-6">
-          <h1 className="text-4xl font-bold">XuperAuth</h1>
-        </div>
-
-        <form className="mt-6">
-          <div>
-            <label htmlFor="authUrl" className="block text-lg font-bold text-gray-800">
-              Callback URL
-            </label>
-            <input
-              id="authUrl"
-              type="text"
-              value={authUrl}
-              onChange={(e) => setAuthUrl(e.target.value)}
-              placeholder="Enter your callback URL"
-              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg focus:border-black focus:ring-black focus:outline-none"
-            />
+    <>
+      <div className="w-full flex h-screen justify-center items-center">
+        <div className="p-10 w-[30vw] h-72 bg-white rounded-lg shadow-md">
+          <div className="flex justify-center mb-6">
+            <h1 className="text-4xl font-bold">XuperAuth</h1>
           </div>
 
-          {/* Container for the Telegram button */}
-          <div className="mt-6" ref={telegramContainerRef}></div>
-        </form>
+          <form className="mt-6">
+            <div>
+              <label
+                htmlFor="authUrl"
+                className="block text-lg font-bold text-gray-800"
+              >
+                Auth Redirect URL
+              </label>
+              <input
+                id="authUrl"
+                type="text"
+                value={authUrl}
+                onChange={(e) => setAuthUrl(e.target.value)}
+                placeholder="Enter your auth redirect URL"
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg focus:border-black focus:ring-black focus:outline-none"
+              />
+            </div>
+
+            {/* Container for the Telegram button */}
+            <div className="mt-6" ref={telegramContainerRef}></div>
+          </form>
+        </div>
       </div>
-    </div>
+      <ToastContainer />
+    </>
   );
 };
 
