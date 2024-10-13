@@ -1,6 +1,6 @@
-'use client'
-import React, { useEffect, useState } from "react";
-import Script from "next/script";
+"use client"
+
+import React, { useEffect, useRef, useState } from "react";
 
 type TelegramUser = {
   id: number;
@@ -21,7 +21,7 @@ declare global {
 
 const sendMessageToTelegramUser = async (chatId: number, message: string) => {
     const botToken = "7569757240:AAGQGnfhqEXJoujh8xy527Yj9Eo64jmzxEQ";
-    const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(
+  const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(
     message
   )}`;
 
@@ -39,6 +39,7 @@ const sendMessageToTelegramUser = async (chatId: number, message: string) => {
 
 const TelegramAuth: React.FC = () => {
   const [authUrl, setAuthUrl] = useState("");
+  const telegramContainerRef = useRef<HTMLDivElement>(null);
 
   const onTelegramAuth = (user: TelegramUser) => {
     alert(
@@ -53,6 +54,20 @@ const TelegramAuth: React.FC = () => {
 
   useEffect(() => {
     window.onTelegramAuth = onTelegramAuth;
+
+    // Dynamically inject the Telegram widget
+    const telegramScript = document.createElement("script");
+    telegramScript.src = "https://telegram.org/js/telegram-widget.js?22";
+    telegramScript.setAttribute("data-telegram-login", "xuper_chain_bot"); // Replace with your bot username
+    telegramScript.setAttribute("data-size", "large");
+    telegramScript.setAttribute("data-onauth", "onTelegramAuth(user)");
+    telegramScript.setAttribute("data-request-access", "write");
+    telegramScript.async = true;
+
+    // Append the script to the desired container
+    if (telegramContainerRef.current) {
+      telegramContainerRef.current.appendChild(telegramScript);
+    }
   }, []);
 
   return (
@@ -77,35 +92,10 @@ const TelegramAuth: React.FC = () => {
             />
           </div>
 
-          <div className="mt-6">
-            {/* Container for the Telegram widget */}
-            <div id="telegram-login-button"></div>
-          </div>
+          {/* Container for the Telegram button */}
+          <div className="mt-6" ref={telegramContainerRef}></div>
         </form>
       </div>
-
-      {/* Telegram Widget Script */}
-      <Script
-        id="telegram-login-script"
-        strategy="lazyOnload"
-        src="https://telegram.org/js/telegram-widget.js?22"
-        data-telegram-login="xuper_chain_bot" // Replace with your bot username
-        data-size="large"
-        data-onauth="onTelegramAuth(user)"
-        data-request-access="write"
-        onLoad={() => {
-          // Manually inserting the button into the container after the script loads
-          const container = document.getElementById("telegram-login-button");
-          if (container) {
-            const widget = document.createElement("div");
-            widget.setAttribute("data-telegram-login", "xuper_chain_bot");
-            widget.setAttribute("data-size", "large");
-            widget.setAttribute("data-onauth", "onTelegramAuth(user)");
-            widget.setAttribute("data-request-access", "write");
-            container.appendChild(widget);
-          }
-        }}
-      />
     </div>
   );
 };
