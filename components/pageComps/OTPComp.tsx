@@ -80,9 +80,7 @@ const OTP: React.FC = () => {
       <div className="relative min-h-screen bg-black hidden md:flex items-center justify-center">
         <div className="w-full flex flex-row space-x-6 mx-auto pl-60 items-center justify-center shadow-lg rounded-lg">
           <div className="relative flex w-[25vw] py-20 h-auto flex-col rounded-lg justify-center p-10 bg-white">
-            <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 -mt-6">OTP</h2>
-            </div>
+           
 
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
