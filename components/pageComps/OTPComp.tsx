@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Image from "next/image";
 
 const OTP: React.FC = () => {
   const router = useRouter();
@@ -144,6 +145,16 @@ const OTP: React.FC = () => {
               </h1>
             </div>
           </div>
+        </div>
+        <div className="absolute bottom-0 right-0 hidden sm:block">
+          <Image
+            width={60}
+            height={60}
+            unoptimized
+            src="/images/spiral.png"
+            alt="Large Image"
+            className="w-[300px] h-[200px] lg:w-[650px] lg:h-[430px] object-cover opacity-20"
+          />
         </div>
       </div>
     </>
