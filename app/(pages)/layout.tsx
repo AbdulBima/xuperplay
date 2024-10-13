@@ -23,7 +23,7 @@ export default function RootLayout({
           </div>
 
           {/* Main content area (children) */}
-          <div className="flex-1 bg-white h-full overflow-y-auto">
+          <div className="flex-1 manrope  bg-white h-full overflow-y-auto">
             {children} {/* Render children once token is verified */}
           </div>
         </div>
