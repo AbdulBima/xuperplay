@@ -50,7 +50,7 @@ const OTP: React.FC = () => {
         toast.success("Login successful, redirecting to dashboard...");
         router.push("/dashboard"); // Redirect to dashboard immediately
       } else {
-        toast.error("Project not found. Redirecting to registration...");
+        toast.success("Redirecting to registration...");
         router.push("/login/create"); // Redirect to registration immediately
       }
     } catch (error) {

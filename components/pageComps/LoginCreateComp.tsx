@@ -1,15 +1,75 @@
-// components/LoginCreate.tsx
+'use client'
 
+import React, { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
-import React from "react";
 
 const LoginCreate: React.FC = () => {
+  const router = useRouter();
+
+  // State for form data
+  const [projectName, setProjectName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [teamSize, setTeamSize] = useState<string>("");
+  const [projectUrl, setProjectUrl] = useState<string>("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      // Retrieve buid from local storage
+      const buid = localStorage.getItem("buid");
+      const companyEmail = localStorage.getItem("companyEmail");
+
+      if (!buid) {
+        toast.error("BUID not found. Please log in again.");
+        router.push("/");
+        return;
+      }
+
+      // Make API call to send form data along with buid
+      const response = await axios.post(
+        "https://xuperplaybackend.onrender.com/api/xup/company/create-company",
+        {
+          buid, 
+          projectName,
+          email : companyEmail,
+          firstName,
+          lastName,
+          teamSize,
+          projectUrl,
+        }
+      );
+
+      if (response.status === 201) {
+        // If response is successful, save buid to local storage
+        localStorage.setItem("buid", response.data.buid);
+        localStorage.setItem("email", response.data.email);
+
+
+        // Show success toast
+        toast.success("Project created successfully!");
+
+        // Redirect to the dashboard
+        router.push("/dashboard");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast.error("An error occurred. Please try again.");
+    }
+  };
+
   return (
     <div className="relative min-h-screen bg-black flex items-center justify-center px-4">
+      <ToastContainer />
       <div className="w-full lg:w-auto flex flex-col lg:flex-row mx-auto lg:pl-60 items-center justify-center shadow-lg rounded-lg">
         {/* Left Side (Form Section) */}
         <div className="relative flex w-full lg:w-[30vw] py-10 lg:py-20 h-auto flex-col rounded-lg justify-center p-6 lg:p-10 bg-white">
-          {/* Welcome Text (Inside White Background Above the Form) */}
           <div className="text-center mb-8">
             <h2 className="text-xl lg:text-2xl font-bold text-gray-900">
               Create Account
@@ -17,7 +77,7 @@ const LoginCreate: React.FC = () => {
           </div>
 
           {/* Form */}
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             {/* Project Name */}
             <div>
               <label
@@ -33,6 +93,28 @@ const LoginCreate: React.FC = () => {
                 required
                 className="mt-1 p-2 w-full border border-gray-300 rounded-lg shadow-sm focus:ring-black focus:border-black text-sm lg:text-lg"
                 placeholder="Your Project"
+                value={projectName}
+                onChange={(e) => setProjectName(e.target.value)}
+              />
+            </div>
+
+            {/* Email */}
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm lg:text-lg font-medium text-gray-700"
+              >
+                Email
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                className="mt-1 p-2 w-full border border-gray-300 rounded-lg shadow-sm focus:ring-black focus:border-black text-sm lg:text-lg"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
@@ -52,6 +134,8 @@ const LoginCreate: React.FC = () => {
                   required
                   className="mt-1 p-2 w-full border border-gray-300 rounded-lg shadow-sm focus:ring-black focus:border-black text-sm lg:text-lg"
                   placeholder=""
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
                 />
               </div>
               <div>
@@ -68,6 +152,8 @@ const LoginCreate: React.FC = () => {
                   required
                   className="mt-1 p-2 w-full border border-gray-300 rounded-lg shadow-sm focus:ring-black focus:border-black text-sm lg:text-lg"
                   placeholder=""
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
                 />
               </div>
             </div>
@@ -83,10 +169,12 @@ const LoginCreate: React.FC = () => {
               <input
                 id="team-size"
                 name="team-size"
-                type="string"
+                type="text"
                 required
                 className="mt-1 p-2 w-full border border-gray-300 rounded-lg shadow-sm focus:ring-black focus:border-black text-sm lg:text-lg"
                 placeholder="0"
+                value={teamSize}
+                onChange={(e) => setTeamSize(e.target.value)}
               />
             </div>
 
@@ -105,6 +193,8 @@ const LoginCreate: React.FC = () => {
                 required
                 className="mt-1 p-2 w-full border border-gray-300 rounded-lg shadow-sm focus:ring-black focus:border-black text-sm lg:text-lg"
                 placeholder="https://yourproject.com"
+                value={projectUrl}
+                onChange={(e) => setProjectUrl(e.target.value)}
               />
             </div>
 
@@ -114,7 +204,7 @@ const LoginCreate: React.FC = () => {
                 type="submit"
                 className="w-full flex text-sm lg:text-lg justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm font-medium text-white bg-black hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
               >
-                LOGIN
+                Submit
               </button>
             </div>
           </form>
