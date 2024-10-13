@@ -206,7 +206,7 @@ const LoginComp: React.FC = () => {
               </div>
 
               {/* Telegram Widget Container */}
-              <div className="mt-6" ref={telegramContainerRef}></div>
+              <div className="mt-6 w-full flex mx-auto justify-center items-center" ref={telegramContainerRef}></div>
             </form>
           </div>
 
