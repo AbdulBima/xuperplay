@@ -4,7 +4,7 @@ import React from "react";
 const LoginCr = () => {
   return (
     <div>
-      <LoginCreate />{" "}
+      <LoginCreate />
     </div>
   );
 };
