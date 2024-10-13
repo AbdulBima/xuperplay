@@ -14,14 +14,14 @@ const LoginComp: React.FC = () => {
 
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); 
-    setLoading(true); 
+    e.preventDefault();
+    setLoading(true);
 
     try {
       const response = await axios.post(
         "https://xuperplaybackend.onrender.com/api/xup/company/retrive/company",
         {
-          email: email, 
+          email: email,
         }
       );
 
@@ -31,14 +31,16 @@ const LoginComp: React.FC = () => {
         localStorage.setItem("tempCompanyToken", token);
         localStorage.setItem("companyEmail", email);
 
-        toast.success("Token sent to email successfully! Redirecting to OTP page...");
+        toast.success(
+          "Token sent to email successfully! Redirecting to OTP page..."
+        );
         router.push("/login/otp");
       }
     } catch (error) {
       toast.error("Failed to send email. Please try again.");
       console.error("Error sending email to backend:", error);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -85,29 +87,30 @@ const LoginComp: React.FC = () => {
               </div>
 
               <div>
-                <button
-                  type="submit"
-                  className="w-full flex text-lg justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm font-medium text-white bg-black hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
-                  disabled={loading} // Disable button when loading
-                >
-                  {loading ? (
-                    /* From Uiverse.io by PriyanshuGupta28 */
-                    <div className="spinner">
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                    </div>
-                  ) : (
-                    <span>LOGIN</span>
-                  )}
-                </button>
+                {loading ? (
+                  /* From Uiverse.io by PriyanshuGupta28 */
+                  <div className="spinner">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                ) : (
+                  <button
+                    type="submit"
+                    className="w-full flex text-lg justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm font-medium text-white bg-black hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+                    disabled={loading} // Disable button when loading
+                  >
+                    {" "}
+                    LOGIN{" "}
+                  </button>
+                )}
               </div>
             </form>
           </div>
