@@ -88,7 +88,6 @@ const LoginComp: React.FC = () => {
 
               <div>
                 {loading ? (
-                  /* From Uiverse.io by PriyanshuGupta28 */
                   <div className="spinner">
                     <div></div>
                     <div></div>

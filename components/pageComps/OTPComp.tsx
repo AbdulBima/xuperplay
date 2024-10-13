@@ -18,6 +18,8 @@ const OTP: React.FC = () => {
     const storedToken = localStorage.getItem("tempCompanyToken");
 
     if (storedEmail) setEmail(storedEmail);
+    if (storedToken) setOtp(storedToken);
+
     if (!storedToken) {
       toast.error("Token not found. Redirecting to login...");
       router.push("/");
