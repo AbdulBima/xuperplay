@@ -3,6 +3,7 @@ import React from "react";
 import { usePathname } from "next/navigation";
 import "@/app/globals.css";
 import Image from "next/image";
+import Link from "next/link";
 
 const Sidebar: React.FC = () => {
   const pathname = usePathname();
@@ -14,7 +15,7 @@ const Sidebar: React.FC = () => {
     { href: "/transactions", label: "Transactions", icon: "receipt" },
     { href: "/vault", label: "Vault", icon: "lock" },
     { href: "/settings", label: "Settings", icon: "settings" },
-    { href: "/auth", label: "Auth", icon: "auth" },
+    { href: "/auth/telegram", label: "Auth", icon: "auth" },
   ];
 
   const getIcon = (icon: string) => {
@@ -109,7 +110,7 @@ const Sidebar: React.FC = () => {
     <div className="flex flex-col items-center manrope py-80 justify-center w-full h-screen  overflow-y-hidden overflow-x-hidden px-10 bg-[#010220] border-r border-gray-700">
       <div className="flex flex-col flex-1 space-y-6 ">
         {navItems.map((item) => (
-          <a
+          <Link
             key={item.href}
             href={item.href}
             className={`p-1 flex flex-col items-center space-y-1 transition-colors duration-200 rounded-lg ${
@@ -120,7 +121,7 @@ const Sidebar: React.FC = () => {
           >
             {getIcon(item.icon)}
             <span className="text-xs">{item.label}</span>
-          </a>
+          </Link>
         ))}
       </div>
     </div>

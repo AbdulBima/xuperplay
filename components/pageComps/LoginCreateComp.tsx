@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React, { useState } from "react";
 import axios from "axios";
@@ -12,17 +12,20 @@ const LoginCreate: React.FC = () => {
 
   // State for form data
   const [projectName, setProjectName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [teamSize, setTeamSize] = useState<string>("");
   const [projectUrl, setProjectUrl] = useState<string>("");
 
+  // Loading state for form submission
+  const [loading, setLoading] = useState<boolean>(false);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true); // Set loading state to true when submitting
 
     try {
-      // Retrieve buid from local storage
+      // Retrieve buid and companyEmail from local storage
       const buid = localStorage.getItem("buid");
       const companyEmail = localStorage.getItem("companyEmail");
 
@@ -36,9 +39,9 @@ const LoginCreate: React.FC = () => {
       const response = await axios.post(
         "https://xuperplaybackend.onrender.com/api/xup/company/create-company",
         {
-          buid, 
+          buid,
           projectName,
-          email : companyEmail,
+          email: companyEmail,
           firstName,
           lastName,
           teamSize,
@@ -47,10 +50,9 @@ const LoginCreate: React.FC = () => {
       );
 
       if (response.status === 201) {
-        // If response is successful, save buid to local storage
+        // If response is successful, save buid and email to local storage
         localStorage.setItem("buid", response.data.buid);
         localStorage.setItem("email", response.data.email);
-
 
         // Show success toast
         toast.success("Project created successfully!");
@@ -61,6 +63,8 @@ const LoginCreate: React.FC = () => {
     } catch (error) {
       console.error("Error submitting form:", error);
       toast.error("An error occurred. Please try again.");
+    } finally {
+      setLoading(false); // Reset loading state once form is submitted
     }
   };
 
@@ -98,27 +102,7 @@ const LoginCreate: React.FC = () => {
               />
             </div>
 
-            {/* Email */}
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm lg:text-lg font-medium text-gray-700"
-              >
-                Email
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                className="mt-1 p-2 w-full border border-gray-300 rounded-lg shadow-sm focus:ring-black focus:border-black text-sm lg:text-lg"
-                placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-
-            {/* First and Last Name in a row for larger screens */}
+            {/* First and Last Name */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <div>
                 <label
@@ -133,7 +117,6 @@ const LoginCreate: React.FC = () => {
                   type="text"
                   required
                   className="mt-1 p-2 w-full border border-gray-300 rounded-lg shadow-sm focus:ring-black focus:border-black text-sm lg:text-lg"
-                  placeholder=""
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                 />
@@ -151,7 +134,6 @@ const LoginCreate: React.FC = () => {
                   type="text"
                   required
                   className="mt-1 p-2 w-full border border-gray-300 rounded-lg shadow-sm focus:ring-black focus:border-black text-sm lg:text-lg"
-                  placeholder=""
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                 />
@@ -170,9 +152,7 @@ const LoginCreate: React.FC = () => {
                 id="team-size"
                 name="team-size"
                 type="text"
-                required
                 className="mt-1 p-2 w-full border border-gray-300 rounded-lg shadow-sm focus:ring-black focus:border-black text-sm lg:text-lg"
-                placeholder="0"
                 value={teamSize}
                 onChange={(e) => setTeamSize(e.target.value)}
               />
@@ -190,7 +170,6 @@ const LoginCreate: React.FC = () => {
                 id="project-url"
                 name="project-url"
                 type="url"
-                required
                 className="mt-1 p-2 w-full border border-gray-300 rounded-lg shadow-sm focus:ring-black focus:border-black text-sm lg:text-lg"
                 placeholder="https://yourproject.com"
                 value={projectUrl}
@@ -200,12 +179,31 @@ const LoginCreate: React.FC = () => {
 
             {/* Submit Button */}
             <div>
-              <button
-                type="submit"
-                className="w-full flex text-sm lg:text-lg justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm font-medium text-white bg-black hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
-              >
-                Submit
-              </button>
+              {loading ? (
+                <div className="spinner w-full flex justify-center">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              ) : (
+                <button
+                  type="submit"
+                  disabled={loading} // Disable button while loading
+                  className="w-full flex text-sm lg:text-lg justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm font-medium text-white bg-black hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black
+                  "
+                >
+                  {" "}
+                  Create{" "}
+                </button>
+              )}{" "}
+              {/* Change button text when loading */}
             </div>
           </form>
         </div>

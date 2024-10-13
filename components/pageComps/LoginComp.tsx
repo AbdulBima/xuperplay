@@ -88,7 +88,7 @@ const LoginComp: React.FC = () => {
 
               <div>
                 {loading ? (
-                  <div className="spinner">
+                  <div className="spinner w-full flex justify-center">
                     <div></div>
                     <div></div>
                     <div></div>

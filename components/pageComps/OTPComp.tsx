@@ -81,27 +81,12 @@ const OTP: React.FC = () => {
         <div className="w-full flex flex-row space-x-6 mx-auto pl-60 items-center justify-center shadow-lg rounded-lg">
           <div className="relative flex w-[25vw] py-20 h-auto flex-col rounded-lg justify-center p-10 bg-white">
             <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 -mt-6">Login</h2>
+              <h2 className="text-2xl font-bold text-gray-900 -mt-6">OTP</h2>
             </div>
 
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
-                <label
-                  htmlFor="email"
-                  className="block text-lg font-bold text-gray-700"
-                >
-                  Email Address
-                </label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  className="mt-1 p-2 w-full border border-gray-300 rounded-lg shadow-sm focus:ring-black focus:border-black text-lg"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="heydev@xuperauth.com"
-                />
+                <h1 className="text-black font-semibold text-xl"> Enter OTP sent to: {email}</h1>
 
                 <label
                   htmlFor="otp"
@@ -123,7 +108,7 @@ const OTP: React.FC = () => {
 
               <div>
                 {loading ? (
-                  <div className="spinner w-full justify-center">
+                  <div className="spinner w-full flex justify-center">
                     <div></div>
                     <div></div>
                     <div></div>
