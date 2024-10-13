@@ -8,15 +8,15 @@
 .manrope {
   font-family: "Manrope", sans-serif;
   font-optical-sizing: auto;
-  font-weight: 500;
+  font-weight: 300;
   font-style: normal;
 }
 
 /* From Uiverse.io by PriyanshuGupta28 */ 
 .spinner {
   position: absolute;
-  width: 9px;
-  height: 9px;
+  width: 6px;
+  height: 6px;
 }
 
 .spinner div {

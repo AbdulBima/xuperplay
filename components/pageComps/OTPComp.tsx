@@ -20,22 +20,17 @@ const OTP: React.FC = () => {
     if (storedEmail) setEmail(storedEmail);
     if (storedToken) setOtp(storedToken);
 
-    if (!storedToken) {
-      toast.error("Token not found. Redirecting to login...");
-      setTimeout(() => {
-        router.push("/");
-      }, 2000); // Wait before redirecting
-    }
+ 
   }, [router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true); // Start loading
-
+  
     try {
       const token = localStorage.getItem("tempCompanyToken");
       if (!token) throw new Error("Token is missing");
-
+  
       // Make the API call with email and token
       const response = await axios.post(
         "https://xuperplaybackend.onrender.com/api/xup/company/auth/verify-token",
@@ -43,26 +38,20 @@ const OTP: React.FC = () => {
           token,
         }
       );
-
-      const { message, buid, projectName } = response.data;
-
+  
+      const { buid, projectName } = response.data;
+  
       // Save the response data to local storage
       localStorage.setItem("buid", buid);
+      
+      // Check if projectName exists in the response
       if (projectName) {
         localStorage.setItem("projectName", projectName);
-      }
-
-      // Show success toast and redirect based on the API response
-      if (message === "Company already exists.") {
         toast.success("Login successful, redirecting to dashboard...");
-        setTimeout(() => {
-          router.push("/dashboard");
-        }, 2000); // 2-second delay
-      } else if (message === "New company created, complete registration") {
-        toast.success("New company created. Redirecting to registration...");
-        setTimeout(() => {
-          router.push("/login/create");
-        }, 2000); // 2-second delay
+        router.push("/dashboard"); // Redirect to dashboard immediately
+      } else {
+        toast.error("Project not found. Redirecting to registration...");
+        router.push("/login/create"); // Redirect to registration immediately
       }
     } catch (error) {
       console.error("Error during submission:", error);
@@ -71,6 +60,7 @@ const OTP: React.FC = () => {
       setLoading(false); // Stop loading after API call
     }
   };
+  
 
   return (
     <>
@@ -133,7 +123,7 @@ const OTP: React.FC = () => {
 
               <div>
                 {loading ? (
-                  <div className="spinner">
+                  <div className="spinner w-full justify-center">
                     <div></div>
                     <div></div>
                     <div></div>
