@@ -160,9 +160,8 @@ const LoginComp: React.FC = () => {
               <div className="mt-6 w-full flex mx-auto justify-center items-center" ref={telegramContainerRef}></div>
             </form>
           </div>
-        </div>
 
-           {/* Right Side (Text Section) */}
+             {/* Right Side (Text Section) */}
           <div className="w-[50vw] px-32 h-auto flex items-center bg-transparent justify-center p-10 text-white">
             <div>
               <h1 className="text-3xl px-6 font-bold mb-4 leading-loose">
@@ -172,6 +171,9 @@ const LoginComp: React.FC = () => {
               </h1>
             </div>
           </div>
+        </div>
+
+        
 
         <div className="absolute bottom-0 right-0">
           <Image
