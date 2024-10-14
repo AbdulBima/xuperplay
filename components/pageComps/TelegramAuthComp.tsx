@@ -1,5 +1,6 @@
-"use client";
+"use client"
 
+import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -21,15 +22,52 @@ declare global {
   }
 }
 
-const sendMessageToTelegramUser = async (chatId: number, message: string) => {
-  const botToken = "7569757240:AAGQGnfhqEXJoujh8xy527Yj9Eo64jmzxEQ";
-  const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(
-    message
-  )}`;
+const TelegramAuth: React.FC = () => {
+  const [authUrl, setAuthUrl] = useState("");
+  const telegramContainerRef = useRef<HTMLDivElement>(null);
+
+  // Function to update Telegram authentication details
+  const updateTelegramAuthDetails = async (authUrl: string, chatId: number) => {
+    try {
+      // Retrieve 'build' from localStorage
+      const build = localStorage.getItem("build");
+
+      if (!build) {
+        console.error("Build value is missing from localStorage");
+        return;
+      }
+
+      // Call backend API to update Telegram authentication
+      const response = await axios.put(
+        "https://xuperplaybackend.onrender.com/api/xup/company/telegram-auth",
+        {
+          telegramAuthCallbackUrl: authUrl, // The callback URL
+          build: build, // Add the build from localStorage here
+        }
+      );
+
+      if (response.status === 200) {
+        const { auth_url } = response.data; // Extract the returned auth_url
+        console.log("Telegram authentication updated successfully:", response.data);
+
+        // Send the auth_url as a message to the Telegram user
+        sendMessageToTelegramUser(chatId, `Your Telegram-Auth URL: ${auth_url}`);
+      } else {
+        console.log("Failed to update Telegram authentication:", response.data);
+      }
+    } catch (error) {
+      console.error("Error updating Telegram authentication:", error);
+    }
+  };
+
+  // Function to send a message to the Telegram user
+  const sendMessageToTelegramUser = async (chatId: number, message: string) => {
+    const botToken = "7569757240:AAGQGnfhqEXJoujh8xy527Yj9Eo64jmzxEQ";
+    const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
 
   try {
-    const response = await fetch(url);
-    if (response.ok) {
+    const response = await axios.get(url);  // Using axios for sending message
+    if (response.status === 200) {
       console.log("Message sent successfully");
     } else {
       console.log("Failed to send message");
@@ -39,20 +77,14 @@ const sendMessageToTelegramUser = async (chatId: number, message: string) => {
   }
 };
 
-const TelegramAuth: React.FC = () => {
-  const [authUrl, setAuthUrl] = useState("");
-  const telegramContainerRef = useRef<HTMLDivElement>(null);
 
+  // Function that handles Telegram authentication
   const onTelegramAuth = (user: TelegramUser) => {
-    toast.success(
-      `Logged in as ${user.first_name} ${user.last_name || ""} userId: ${
-        user.id || ""
-      } Hash: ${user.hash || ""}  (@${user.username || "N/A"})`
-    );
-
+    toast.success(`Logged in as ${user.first_name} ${user.last_name || ""} (@${user.username || "N/A"})`);
     console.log("User Data: ", user);
 
-    sendMessageToTelegramUser(user.id, "Welcome to our service!");
+    // Send Telegram Auth details to the backend API and then send the auth URL to the user
+    updateTelegramAuthDetails(authUrl, user.id); // Ensure user.id is the correct chatId
   };
 
   useEffect(() => {
@@ -83,10 +115,7 @@ const TelegramAuth: React.FC = () => {
 
           <form className="mt-6">
             <div>
-              <label
-                htmlFor="authUrl"
-                className="block text-lg font-bold text-gray-800"
-              >
+              <label htmlFor="authUrl" className="block text-lg font-bold text-gray-800">
                 Auth Redirect URL
               </label>
               <input
