@@ -29,11 +29,11 @@ const TelegramAuth: React.FC = () => {
   // Function to update Telegram authentication details
   const updateTelegramAuthDetails = async (authUrl: string, chatId: number) => {
     try {
-      // Retrieve 'build' from localStorage
-      const build = localStorage.getItem("build");
+      // Retrieve 'buid' from localStorage
+      const buid = localStorage.getItem("buid");
 
-      if (!build) {
-        console.error("Build value is missing from localStorage");
+      if (!buid) {
+        console.error("Buid value is missing from localStorage");
         return;
       }
 
@@ -42,7 +42,7 @@ const TelegramAuth: React.FC = () => {
         "https://xuperplaybackend.onrender.com/api/xup/company/telegram-auth",
         {
           telegramAuthCallbackUrl: authUrl, // The callback URL
-          build: build, // Add the build from localStorage here
+          buid: buid, // Add the buid from localStorage here
         }
       );
 
