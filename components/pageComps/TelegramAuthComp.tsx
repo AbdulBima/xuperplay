@@ -1,5 +1,3 @@
-"use client"
-
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -25,17 +23,31 @@ declare global {
 const TelegramAuth: React.FC = () => {
   const [authUrl, setAuthUrl] = useState("");
   const telegramContainerRef = useRef<HTMLDivElement>(null);
+  const [isAuthUrlValid, setIsAuthUrlValid] = useState(true); // Track if the URL is valid
+
+  // Debounced input handling
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      console.log("Debounced authUrl:", authUrl);
+      if (!authUrl) {
+        setIsAuthUrlValid(false);
+      } else {
+        setIsAuthUrlValid(true);
+      }
+    }, 300); // Delay of 300ms for debouncing input changes
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [authUrl]);
 
   // Function to update Telegram authentication details
   const updateTelegramAuthDetails = async (authUrl: string, chatId: number) => {
     try {
-      // Retrieve 'buid' from localStorage
       const buid = localStorage.getItem("buid");
 
       if (!authUrl) {
         toast.error("Please enter the Auth Redirect URL.");
         console.error("Auth URL is empty, cannot proceed.");
-        return;  // Stop execution if authUrl is empty
+        return;
       }
 
       if (!buid) {
@@ -43,7 +55,6 @@ const TelegramAuth: React.FC = () => {
         return;
       }
 
-      // Call backend API to update Telegram authentication
       const response = await axios.put(
         "https://xuperplaybackend.onrender.com/api/xup/company/telegram-auth",
         {
@@ -53,7 +64,7 @@ const TelegramAuth: React.FC = () => {
       );
 
       if (response.status === 200) {
-        const { auth_url } = response.data; // Extract the returned auth_url
+        const { auth_url } = response.data;
         console.log("Telegram authentication updated successfully:", response.data);
 
         // Send the auth_url as a message to the Telegram user
@@ -71,18 +82,17 @@ const TelegramAuth: React.FC = () => {
     const botToken = "7569757240:AAGQGnfhqEXJoujh8xy527Yj9Eo64jmzxEQ";
     const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
 
-  try {
-    const response = await axios.get(url);  // Using axios for sending message
-    if (response.status === 200) {
-      console.log("Message sent successfully");
-    } else {
-      console.log("Failed to send message");
+    try {
+      const response = await axios.get(url);
+      if (response.status === 200) {
+        console.log("Message sent successfully");
+      } else {
+        console.log("Failed to send message");
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
     }
-  } catch (error) {
-    console.error("Error sending message:", error);
-  }
-};
-
+  };
 
   // Function that handles Telegram authentication
   const onTelegramAuth = (user: TelegramUser) => {
@@ -90,13 +100,12 @@ const TelegramAuth: React.FC = () => {
     console.log("User Data: ", user);
 
     if (!authUrl) {
-        toast.error("Please enter the Auth Redirect URL.");
-        console.error("Auth URL is empty, cannot proceed.");
-        return;  // Stop execution if authUrl is empty
-      }
+      toast.error("Please enter the Auth Redirect URL.");
+      console.error("Auth URL is empty, cannot proceed.");
+      return;
+    }
 
-    // Send Telegram Auth details to the backend API and then send the auth URL to the user
-    updateTelegramAuthDetails(authUrl, user.id); // Ensure user.id is the correct chatId
+    updateTelegramAuthDetails(authUrl, user.id);
   };
 
   useEffect(() => {
@@ -111,7 +120,6 @@ const TelegramAuth: React.FC = () => {
     telegramScript.setAttribute("data-request-access", "write");
     telegramScript.async = true;
 
-    // Append the script to the desired container
     if (telegramContainerRef.current) {
       telegramContainerRef.current.appendChild(telegramScript);
     }
@@ -135,14 +143,19 @@ const TelegramAuth: React.FC = () => {
                 type="text"
                 value={authUrl}
                 onChange={(e) => {
-                    setAuthUrl(e.target.value);
-                    console.log("Updated authUrl:", e.target.value); // Check the value being set
-                  }}                placeholder="Enter your auth redirect URL"
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg focus:border-black focus:ring-black focus:outline-none"
+                  setAuthUrl(e.target.value);
+                  console.log("Updated authUrl:", e.target.value);
+                }}
+                placeholder="Enter your auth redirect URL"
+                className={`block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg focus:border-black focus:ring-black focus:outline-none ${
+                  isAuthUrlValid ? "" : "border-red-500"
+                }`}
               />
+              {!isAuthUrlValid && (
+                <p className="text-red-500 text-sm mt-1">Auth Redirect URL is required.</p>
+              )}
             </div>
 
-            {/* Container for the Telegram button */}
             <div className="mt-6" ref={telegramContainerRef}></div>
           </form>
         </div>
