@@ -32,6 +32,12 @@ const TelegramAuth: React.FC = () => {
       // Retrieve 'buid' from localStorage
       const buid = localStorage.getItem("buid");
 
+      if (!authUrl) {
+        toast.error("Please enter the Auth Redirect URL.");
+        console.error("Auth URL is empty, cannot proceed.");
+        return;  // Stop execution if authUrl is empty
+      }
+
       if (!buid) {
         console.error("Buid value is missing from localStorage");
         return;
@@ -83,6 +89,12 @@ const TelegramAuth: React.FC = () => {
     toast.success(`Logged in as ${user.first_name} ${user.last_name || ""} (@${user.username || "N/A"})`);
     console.log("User Data: ", user);
 
+    if (!authUrl) {
+        toast.error("Please enter the Auth Redirect URL.");
+        console.error("Auth URL is empty, cannot proceed.");
+        return;  // Stop execution if authUrl is empty
+      }
+
     // Send Telegram Auth details to the backend API and then send the auth URL to the user
     updateTelegramAuthDetails(authUrl, user.id); // Ensure user.id is the correct chatId
   };
@@ -122,8 +134,10 @@ const TelegramAuth: React.FC = () => {
                 id="authUrl"
                 type="text"
                 value={authUrl}
-                onChange={(e) => setAuthUrl(e.target.value)}
-                placeholder="Enter your auth redirect URL"
+                onChange={(e) => {
+                    setAuthUrl(e.target.value);
+                    console.log("Updated authUrl:", e.target.value); // Check the value being set
+                  }}                placeholder="Enter your auth redirect URL"
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg focus:border-black focus:ring-black focus:outline-none"
               />
             </div>
