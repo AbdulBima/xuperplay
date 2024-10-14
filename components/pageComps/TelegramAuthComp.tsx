@@ -102,11 +102,7 @@ const TelegramAuth: React.FC = () => {
     toast.success(`Logged in as ${user.first_name} ${user.last_name || ""} (@${user.username || "N/A"})`);
     console.log("User Data: ", user);
 
-    if (!authUrl) {
-      toast.error("Please enter the Auth Redirect URL.");
-      console.error("Auth URL is empty, cannot proceed.");
-      return;
-    }
+   
 
     updateTelegramAuthDetails(user.id);
   };
