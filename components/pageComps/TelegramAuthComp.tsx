@@ -41,33 +41,34 @@ const TelegramAuth: React.FC = () => {
   }, [authUrl]);
 
   // Function to update Telegram authentication details
-  const updateTelegramAuthDetails = async (authUrl: string, chatId: number) => {
+  const updateTelegramAuthDetails = async (chatId: number) => {
     try {
       const buid = localStorage.getItem("buid");
-
+      const authUrl = localStorage.getItem("authUrl"); // Get the authUrl from localStorage
+  
       if (!authUrl) {
         toast.error("Please enter the Auth Redirect URL.");
         console.error("Auth URL is empty, cannot proceed.");
         return;
       }
-
+  
       if (!buid) {
         console.error("Buid value is missing from localStorage");
         return;
       }
-
+  
       const response = await axios.put(
         "https://xuperplaybackend.onrender.com/api/xup/company/telegram-auth",
         {
-          telegramAuthCallbackUrl: authUrl, // The callback URL
+          telegramAuthCallbackUrl: authUrl, // Use the authUrl from localStorage
           buid: buid, // Add the buid from localStorage here
         }
       );
-
+  
       if (response.status === 200) {
         const { auth_url } = response.data;
         console.log("Telegram authentication updated successfully:", response.data);
-
+  
         // Send the auth_url as a message to the Telegram user
         sendMessageToTelegramUser(chatId, `Your Telegram-Auth URL: ${auth_url}`);
       } else {
@@ -77,6 +78,7 @@ const TelegramAuth: React.FC = () => {
       console.error("Error updating Telegram authentication:", error);
     }
   };
+  
 
   // Function to send a message to the Telegram user
   const sendMessageToTelegramUser = async (chatId: number, message: string) => {
@@ -106,7 +108,7 @@ const TelegramAuth: React.FC = () => {
       return;
     }
 
-    updateTelegramAuthDetails(authUrl, user.id);
+    updateTelegramAuthDetails(user.id);
   };
 
   useEffect(() => {
@@ -144,9 +146,10 @@ const TelegramAuth: React.FC = () => {
                 type="text"
                 value={authUrl}
                 onChange={(e) => {
-                  setAuthUrl(e.target.value);
-                  console.log("Updated authUrl:", e.target.value);
-                }}
+                    const newAuthUrl = e.target.value; // Get the new value from the input
+                    setAuthUrl(newAuthUrl); // Update the state with the new value
+                    localStorage.setItem('authUrl', newAuthUrl); // Save the value to localStorage
+                  }}
                 placeholder="Enter your auth redirect URL"
                 className={`block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg focus:border-black focus:ring-black focus:outline-none ${
                   isAuthUrlValid ? "" : "border-red-500"
