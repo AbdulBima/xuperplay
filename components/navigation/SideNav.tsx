@@ -28,7 +28,7 @@ const Sidebar: React.FC = () => {
             unoptimized
             src="/images/home.png"
             alt="Large Image"
-            className="w-8 h-8 object-cover "
+            className="w-4 h-4 object-cover "
           />
         );
       case "users":
@@ -39,7 +39,7 @@ const Sidebar: React.FC = () => {
             unoptimized
             src="/images/profile.png"
             alt="Large Image"
-            className="w-8 h-8 object-cover "
+            className="w-4 h-4 object-cover "
           />
         );
       case "wallet":
@@ -50,7 +50,7 @@ const Sidebar: React.FC = () => {
             unoptimized
             src="/images/credit.png"
             alt="Large Image"
-            className="w-8 h-8 object-cover "
+            className="w-4 h-4 object-cover "
           />
         );
       case "receipt":
@@ -61,7 +61,7 @@ const Sidebar: React.FC = () => {
             unoptimized
             src="/images/trans.png"
             alt="Large Image"
-            className="w-8 h-8 object-cover "
+            className="w-4 h-4 object-cover "
           />
         );
       case "lock":
@@ -72,7 +72,7 @@ const Sidebar: React.FC = () => {
             unoptimized
             src="/images/vault.png"
             alt="Large Image"
-            className="w-8 h-8 object-cover "
+            className="w-4 h-4 object-cover "
           />
         );
       case "settings":
@@ -83,7 +83,7 @@ const Sidebar: React.FC = () => {
             unoptimized
             src="/images/set.png"
             alt="Large Image"
-            className="w-8 h-8 object-cover "
+            className="w-4 h-4 object-cover "
           />
         );
 
@@ -91,8 +91,8 @@ const Sidebar: React.FC = () => {
         return (
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="2rem"
-            height="2rem"
+            width="1rem"
+            height="1rem"
             viewBox="0 0 24 24"
           >
             <path
@@ -107,13 +107,13 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center manrope py-80 justify-center w-full h-screen  overflow-y-hidden overflow-x-hidden px-10 bg-[#010220] border-r border-gray-700">
-      <div className="flex flex-col flex-1 space-y-6 ">
+    <div className="flex flex-col items-center manrope py-32 justify-center w-full h-screen  overflow-y-hidden overflow-x-hidden px-2 bg-[#010220] border-r border-gray-700">
+      <div className="flex flex-col flex-1 space-y-5 ">
         {navItems.map((item) => (
           <Link
             key={item.href}
             href={item.href}
-            className={`p-1 flex flex-col items-center space-y-1 transition-colors duration-200 rounded-lg ${
+            className={` flex flex-col items-center space-y-1 transition-colors duration-200 rounded-lg ${
               pathname === item.href
                 ? "underline underline-offset-4 decoration-4 de text-white"
                 : "text-gray-200 hover:bg-gray-800"
