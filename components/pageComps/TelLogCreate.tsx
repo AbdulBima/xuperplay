@@ -78,7 +78,7 @@ const LoginCreate: React.FC = () => {
       <ToastContainer />
       <div className="w-full lg:w-auto flex flex-col lg:flex-row mx-auto lg:pl-60 items-center justify-center shadow-lg rounded-lg">
         {/* Left Side (Form Section) */}
-        <div className="relative flex w-full lg:w-[30vw] py-10 lg:py-20 h-auto flex-col rounded-lg justify-center p-6 lg:p-10 bg-white">
+        <div className="relative flex w-full lg:w-[30vw]  h-[90vh] flex-col rounded-lg justify-center p-6 lg:p-10 bg-white">
           <div className="text-center mb-8">
             <h2 className="text-xl lg:text-2xl font-bold text-gray-900">
               Create Account
@@ -86,7 +86,7 @@ const LoginCreate: React.FC = () => {
           </div>
 
           {/* Form */}
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-4" onSubmit={handleSubmit}>
             {/* Project Name */}
             <div>
               <label
@@ -235,7 +235,7 @@ const LoginCreate: React.FC = () => {
         {/* Right Side (Text Section) */}
         <div className="w-full lg:w-[50vw] px-4 lg:px-32 h-auto flex items-center bg-transparent justify-center p-6 lg:p-10 text-white mt-10 lg:mt-0">
           <div>
-            <h1 className="text-lg lg:text-3xl px-2 lg:px-6 font-bold mb-4 leading-relaxed lg:leading-loose">
+            <h1 className="text-lg lg:text-3xl px-2 lg:px-6 font-bold mb-4">
               Unlock the full potential of Web3 development with Ease. Our
               complete suite of products helps developers and businesses build
               web3 applications and workflows that elevate user experience.
