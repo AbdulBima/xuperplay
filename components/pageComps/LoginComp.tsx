@@ -164,7 +164,7 @@ const LoginComp: React.FC = () => {
              {/* Right Side (Text Section) */}
           <div className="w-[50vw] px-32 h-auto flex items-center bg-transparent justify-center p-10 text-white">
             <div>
-              <h1 className="text-3xl px-6 font-bold mb-4 leading-loose">
+              <h1 className="text-3xl px-6 font-bold mb-4">
                 Unlock the full potential of Web3 development with Ease. Our
                 complete suite of products helps developers and businesses build
                 web3 applications and workflows that elevate user experience.
