@@ -67,7 +67,12 @@ const TelegramAuth: React.FC = () => {
   
       if (response.status === 200) {
         const { auth_url } = response.data;
-        console.log("Telegram authentication updated successfully:", response.data);
+        console.log("Telegram auth activated successfully:", response.data);
+        toast.success("Telegram auth updated successfully! ");
+
+        alert(`Telegram auth activated successfully: ${auth_url}`);
+
+
   
         // Send the auth_url as a message to the Telegram user
         sendMessageToTelegramUser(chatId, `Your Telegram-Auth URL: ${auth_url}`);
@@ -135,7 +140,7 @@ const TelegramAuth: React.FC = () => {
           <form className="mt-6">
             <div>
               <label htmlFor="authUrl" className="block text-lg font-bold text-gray-800">
-                Auth Redirect URL
+                Auth Callback URL
               </label>
               <input
                 id="authUrl"
@@ -152,7 +157,7 @@ const TelegramAuth: React.FC = () => {
                 }`}
               />
               {!isAuthUrlValid && (
-                <p className="text-red-500 text-sm mt-1">Auth Redirect URL is required.</p>
+                <p className="text-red-500 text-sm mt-1">Auth Callback URL is required.</p>
               )}
             </div>
 

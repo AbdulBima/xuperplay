@@ -105,8 +105,8 @@ const LoginComp: React.FC = () => {
         .then((response) => {
           if (response.status === 200) {
             // Token returned from backend
-            const telToken = response.data.token; // Assuming token is part of response
-            sendMessageToTelegramUser(user.id, `Your token: ${telToken}`);
+            const telToken = response.data.otp; // Assuming token is part of response
+            sendMessageToTelegramUser(user.id, `Your XUPER OTP, expires in 3 minutes: ${telToken}`);
 
             // Redirect to OTP page
             router.push("/login/tel/otp/");
